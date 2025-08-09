@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<title>Course Enrollment</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: 50px auto;
+    }
+    select {
+        width: 200px;
+        height: 30px;
+        margin-right: 10px;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #27ae60;
+        color: white;
+        margin-right: 10px;
+    }
+    #enrollBtn {
+        background-color: #4CAF50;
+    }
+    #assignmentsBtn, #marksBtn {
+        background-color: #27ae60;
+    }
+
+    #backBtn {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    .button-container { /* Added */
+        margin-bottom: 10px;
+    }
+    .top-buttons { /* Added */
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top-buttons">
+        <button id="assignmentsBtn" class="btn"><a href="http://127.0.0.1:5000/student_assign_uplo">Assignment Uploads</a></button>
+        <button id="marksBtn" class="btn"><a href="http://127.0.0.1:5000/student_marks_view">Assignment Marks</a></button>
+    </div>
+    
+    <label for="course">Course:</label>
+    <select id="scourse">
+        <!-- Options for courses will be dynamically added here -->
+    </select>
+    <br><br>
+
+    <div class="button-container"> <!-- Added -->
+        <button id="enrollBtn" class="btn">Enroll</button>
+    </div>
+    <div id="ecr"></div>
+</div>
+
+<a href="http://127.0.0.1:5000/home" id="backBtn">Back</a>
+
+<script>
+    // You can add JavaScript to dynamically populate the dropdown with course options if needed
+</script>
+
+</body>
+<script>
+
+    $(document).ready(function() {
+      loadcoursenames();
+      
+      loadenrolledcourses();
+      
+      function loadcoursenames(){
+  
+         $.ajax({
+          url: 'http://127.0.0.1:5000/getcoursenames',
+          type: 'POST',
+          success: function(data){
+            $('#scourse').html(data);
+          }
+        });
+      }
+  
+      $("#enrollBtn").click(function(){
+        var course = $('#scourse').val();
+        var fd=new FormData();
+      fd.append('course',course);
+        $.ajax({
+          url: 'http://127.0.0.1:5000/coursenroll',
+          type: 'POST',
+          data: fd,
+          processData: false,
+          contentType: false,
+          success: function(data){
+            alert(data);
+            loadenrolledcourses();
+          }
+        });
+
+      });
+    
+      function loadenrolledcourses(){
+       $.ajax({
+        url: 'http://127.0.0.1:5000/ecshow',
+        type: 'POST',
+        success: function(data){
+          //alert(data);
+          $('#ecr').html(data);
+        }
+       });
+    }
+    });
+  
+  
+     
+         
+  
+      </script>
+  
+  
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+    <link rel="stylesheet" href="C:\Users\user1\Desktop\Assignment_management\static\login_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form signup">
+            <h2>Student Sign Up</h2>
+            <div class="inputBox">
+                <input type="text" required="required" id="uname">
+                <i class="fa-regular fa-user"></i>
+                <span>username</span>
+            </div>
+
+			<div class="inputBox">
+                <input type="text" required="required" id="usn">
+                <i class="fa-regular fa-id-card"></i>
+                <span>usn</span>
+            </div>
+			
+            <div class="inputBox">
+                <input type="text" required="required" id="email">
+                <i class="fa-regular fa-envelope"></i>
+                <span>email address</span>
+            </div>
+            <div class="inputBox">
+                <input type="password" required="required" id="pwd">
+                <i class="fa-solid fa-lock"></i>
+                <span>create password</span>
+            </div>
+            <div class="inputBox">
+                <input type="button" value="Create Account" id="sbtn"> 
+            </div>
+            <p>Already a member ? <a href="http://127.0.0.1:5000/home" class="login">Log in</a></p>
+        </div>
+        
+        
+    </div>
+
+    <script>
+        let create = document.querySelector('.create');
+        let container = document.querySelector('.container');
+
+        create.onclick = function(){
+            container.classList.remove('signinForm');
+        }
+    </script>
+    <script>
+
+        $(document).ready(function() {
+  
+        $("#sbtn").click(function(){
+            var uname = $('#uname').val();
+            var usn = $('#usn').val();
+            var email = $('#email').val();
+            var pwd = $('#pwd').val();
+        
+            $.ajax({
+            url: 'http://127.0.0.1:5000/student_reg1',
+            type: 'POST',
+            data: {uname: uname, usn: usn,email: email,pwd: pwd},
+            success: function(data){
+                if(data == "success"){
+                window.location.href = 'http://127.0.0.1:5000/student_log';
+                }else{
+                alert('Invalid Username or Password');
+                }
+            }
+            });
+        });
+    
+  
+        });
+    </script>
+</body>
+</html>

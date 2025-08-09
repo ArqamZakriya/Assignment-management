@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Form</title>
+    <style>
+        /* CSS for the entire code */
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.back-btn {
+    display: block;
+    margin: 20px auto; /* Center the button horizontally */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.back-btn:hover {
+    background-color: #0056b3;
+}
+
+.back-btn:focus {
+    outline: none;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Evaluation</h1>
+        <div class="form-group">
+            <label for="course">Course:</label>
+            <select id="course">
+                <option value="">Select a course...</option>
+                <!-- Add course options dynamically here -->
+            </select>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>USN</th>
+                    <th>Student Name</th>
+                    <th>File Uploaded</th>
+                    <th>Max Marks</th>
+                    <th></th> <!-- Empty column -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Add table rows dynamically here -->
+            </tbody>
+        </table>
+        
+        <a class="btn back-btn" href="http://127.0.0.1:5000/faculty_enroll">Back</a>
+    </div>
+</body>
+</html>

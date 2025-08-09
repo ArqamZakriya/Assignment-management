@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Question</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        /* Apply styles to the entire page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Changed height to min-height */
+}
+
+/* Ensure container adjusts to smaller screens */
+.upload-section {
+    width: 100%; /* Adjusts the width of the container */
+    max-width: 600px; /* Added max-width for smaller screens */
+    margin: 0 auto; /* Center the container */
+    padding: 0 20px; /* Added padding for smaller screens */
+}
+
+/* Style the form container */
+.upload-question {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Adjust the width to fill the container */
+    margin-bottom: 20px;
+}
+
+/* Style input fields */
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%; /* Adjust the width to fill the container */
+}
+
+input[type="text"], input[type="number"], select {
+    width: calc(50% - 30px); /* Adjust the width as needed */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    flex: 1; /* Let the input fields grow */
+}
+
+/* Style buttons */
+button {
+    background-color: #ff6347;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* Style evaluate and back buttons */
+.evaluate-section {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%; /* Adjust the width to fill the container */
+}
+
+.evaluate-section a {
+    text-decoration: none;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.evaluate-section a:last-child {
+    margin-right: 0;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="upload-section">
+    <div class="upload-question">
+        <form action="/upload" method="post"> <!-- Replace with your upload URL -->
+            <label for="course">Course:</label>
+            <select id="course" name="course">
+                
+                <!-- Add other course options here -->
+            </select><br>
+
+            <label for="assignmentName">Assignment Name:</label>
+            <div class="input-container">
+                <input type="text" id="assign_name" name="assignmentName" value="" placeholder="Enter assignment name">
+               
+            </div>
+
+            <label for="maxMarks">Max Marks:</label>
+            <div class="input-container">
+                <input type="number" id="max_marks" name="maxMarks" value="" placeholder="Enter max marks">
+              
+            </div>
+
+            <label for="file">Question File:</label> 
+            <input type="file" name="afile" id="afile"><br><br>
+            <input type="button" value="Submit" id="uplBtn">
+        </form>
+    </div>
+    <div id="assgns"></div>
+
+    <div class="evaluate-section">
+        <a href="http://127.0.0.1:5000/faculty_eval">Evaluate</a> 
+        <a href="http://127.0.0.1:5000/faculty_enroll">Back</a>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</body>
+<script>
+
+    $(document).ready(function() {
+      loadcoursenames();
+      loadassignments();
+      
+      function loadcoursenames(){
+  
+         $.ajax({
+          url: 'http://127.0.0.1:5000/getcoursenames',
+          type: 'POST',
+          success: function(data){
+            $('#course').html(data);
+          }
+        });
+      }
+  
+     
+     $("#uplBtn").click(function(){
+      var course = $('#course').val();
+      var aname = $('#assign_name').val();
+      var maxmarks = $('#max_marks').val();
+      
+      
+      var files = $('#afile')[0].files[0]; 
+      var fd=new FormData();
+      fd.append('course',course);
+      fd.append('aname',aname);
+      fd.append('maxmarks',maxmarks);
+     
+      fd.append('afile',files);
+      //alert(files);
+       $.ajax({
+          url: 'http://127.0.0.1:5000/assigninsert',
+          type: 'POST',
+          data: fd,
+          processData: false,
+          contentType: false,
+          success: function(data){
+            alert(data);
+            loadassignments();
+          }
+        });
+      });
+
+      function loadassignments(){
+       $.ajax({
+        url: 'http://127.0.0.1:5000/ashow',
+        type: 'POST',
+        success: function(data){
+          //alert(data);
+          $('#assgns').html(data);
+        }
+       });
+    }
+    });
+  
+  
+     
+         
+  
+      </script>
+  
+  
+  
+</html>

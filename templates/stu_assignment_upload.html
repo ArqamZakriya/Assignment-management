@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<title>Assignment Upload</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+    }
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+        margin-right: 10px;
+        font-weight: bold;
+    }
+    select, input[type="file"], .btn {
+        width: 200px;
+        height: 30px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    select:focus, input[type="file"]:focus {
+        outline: none;
+        border-color: #008CBA;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #008CBA;
+        color: white;
+    }
+    #viewMarksBtn {
+        background-color: #4CAF50;
+    }
+    #submitBtn {
+        background-color: #f44336;
+    }
+
+    #backBtn {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <label for="course">Course:</label>
+    <select id="acname">
+        <!-- Options for courses will be dynamically added here -->
+    </select>
+    <br><br>
+
+    <label for="assignment">Assignment:</label>
+    <select id="aid">
+        <!-- Options for assignments will be dynamically added here -->
+    </select><span id="adetails"></span>
+    <br><br>
+
+    <label for="file">Upload File:</label>
+    <input type="file" id="aafile" name="aafile">
+    <br><br>
+
+    
+    <button id="asubmitBtn" class="btn">Submit</button>
+    <div id="aupo"></div>
+
+    <a href="http://127.0.0.1:5000/student_log2" id="backBtn">Back</a>
+
+</div>
+
+</body>
+<script>
+
+    $(document).ready(function() {
+      loadcoursenames();
+      loaduploadedassignments();
+      
+      function loadcoursenames(){
+  
+         $.ajax({
+          url: 'http://127.0.0.1:5000/getenrolledcoursenames',
+          type: 'POST',
+          success: function(data){
+            $('#acname').html(data);
+          }
+        });
+      }
+  
+      $("#acname").click(function(){
+        var cid=$("#acname").val();
+        $.ajax({
+          url: 'http://127.0.0.1:5000/getassignmentids',
+          type: 'POST',
+          data:{cid:cid},
+          success: function(data){
+            $('#aid').html(data);
+          }
+        });
+
+      });
+
+      $("#aid").click(function(){
+        var aid=$("#aid").val();
+        $.ajax({
+          url: 'http://127.0.0.1:5000/getassignmentdetails',
+          type: 'POST',
+          data:{aid:aid},
+          success: function(data){
+            $('#adetails').html(data);
+          }
+        });
+
+      });
+     $("#asubmitBtn").click(function(){
+      var aid = $('#aid').val();
+      
+      
+      
+      var files = $('#aafile')[0].files[0]; 
+      var fd=new FormData();
+      fd.append('aid',aid);
+      
+     
+      fd.append('aafile',files);
+      //alert(files);
+       $.ajax({
+          url: 'http://127.0.0.1:5000/assignupo',
+          type: 'POST',
+          data: fd,
+          processData: false,
+          contentType: false,
+          success: function(data){
+            alert(data);
+            loaduploadedassignments();
+          }
+        });
+      });
+
+      function loaduploadedassignments(){
+       $.ajax({
+        url: 'http://127.0.0.1:5000/aushow',
+        type: 'POST',
+        success: function(data){
+          //alert(data);
+          $('#aupo').html(data);
+        }
+       });
+    }
+    });
+  
+  
+     
+         
+  
+      </script>
+  
+  
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Selection</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #bababa; /* Light grey background color */
+    }
+
+    /* Login buttons */
+    .login-button {
+      background-color: #2ecc71; /* Green button color */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 0 5px;
+      transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+      background-color: #27ae60; /* Darker green on hover */
+    }
+
+    /* Register section */
+    .register-section {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      text-align: left;
+    }
+
+    /* New user heading */
+    .new-user-heading {
+      color: #333; /* Dark grey color */
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    /* Register button */
+    .register-button {
+      background-color: #3498db; /* Blue button color */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .register-button:hover {
+      background-color: #2980b9; /* Darker blue on hover */
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h2 style="color: rgb(12, 12, 12);">Select Your Login Type:</h2>
+    <button class="login-button"><a href="http://127.0.0.1:5000/student_log">Student Login</a></button>
+    <button class="login-button"><a href="http://127.0.0.1:5000/faculty_log">Faculty Login</a></button>
+  </div>
+
+  <!-- Register section -->
+  <div class="register-section">
+    <h3 class="new-user-heading">New user? Register here:</h3>
+    <button class="register-button"><a href="http://127.0.0.1:5000/hregister">Register</a></button>
+  </div>
+
+  <script>
+    function redirectTo(page) {
+      window.location.href = page;
+    }
+  </script>
+</body>
+</html>
